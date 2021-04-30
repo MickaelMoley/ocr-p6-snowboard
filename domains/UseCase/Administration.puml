@@ -1,0 +1,30 @@
+@startuml Espace de discussion
+'https://plantuml.com/use-case-diagram
+
+actor Utilisateur
+actor Visiteur
+
+note left of Utilisateur: Un acteur qui est connecté et authentifié \n qui possède le niveau de privilège nécessaire
+
+package Figure {
+    usecase "Ajouter une figure" as AddFigure
+    usecase "Modifier une figure" as EditFigure
+    usecase "Supprimer une figure" as DeleteFigure
+    usecase "Voir une figure" as ShowFigure
+
+}
+package EspaceDeDiscussion {
+ usecase "Voir l'espace de discussion" as ReadChatSpace
+ usecase "Poster un message" as WriteChatSpace
+}
+
+Visiteur --> ShowFigure
+Utilisateur --> AddFigure
+Utilisateur --> EditFigure
+Utilisateur --> DeleteFigure
+Utilisateur --> ShowFigure
+
+Visiteur --> ReadChatSpace
+Utilisateur --> ReadChatSpace
+Utilisateur --> WriteChatSpace
+@enduml

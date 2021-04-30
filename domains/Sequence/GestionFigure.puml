@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor Visiteur
+actor Utilisateur
+actor Systeme
+
+note right of Utilisateur: Uniquement SI le visiteur est authentifié
+
+Utilisateur --> Systeme: Demande la page de figures
+
+alt ajouter une figure
+Utilisateur --> Systeme: Demande la page de création d'une figure
+Systeme --> Utilisateur: Affiche le formulaire de création d'une figure
+Utilisateur --> Systeme: Soumets le formulaire
+Systeme --> Systeme: Vérifie que la figure n'existe pas
+alt Si la figure existe déjà
+    Systeme --> Utilisateur: Affiche message d'erreur
+
+else
+    Systeme --> Systeme: Créer la nouvelle figure
+    Systeme --> Utilisateur: Redirige l'utilisateur vers la page d'édition de la figure
+end
+else modifier une figure
+    Utilisateur --> Systeme: Sélectionne le menu édition de la figure
+    Systeme --> Utilisateur: Affiche la page d'édition de la figure
+    Utilisateur --> Systeme: Applique les modifications et sauvegarde
+    Systeme --> Systeme: Enregistre les modifications
+
+else voir une figure
+    Utilisateur --> Systeme: Sélectionne la figure
+    Systeme --> Utilisateur: Affiche la présentation de la figure
+end
+
+
+@enduml

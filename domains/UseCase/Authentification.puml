@@ -1,0 +1,15 @@
+@startuml Espace de discussion
+'https://plantuml.com/use-case-diagram
+
+actor Visiteur
+
+
+usecase "Se connecter" as SignIn
+usecase "S'inscrire" as SignUp
+
+Visiteur --> SignIn
+Visiteur --> SignUp
+
+SignUp -> SignIn
+
+@enduml
