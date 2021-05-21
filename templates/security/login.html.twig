@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter{% endblock %}
+
+{% block body %}
+
+
+    <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8 ">
+            <div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    Se connecter
+                </h2>
+            </div>
+
+            {% for message in app.flashes('error') %}
+                <div class="p-4 bg-red-100 text-red-700 rounded">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('success') %}
+                <div class="p-4 bg-green-100 text-green-700 rounded">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <form class="mt-8 space-y-6 border-2 border-gray-200 p-6 rounded" action="{{ path('app_login') }}" method="POST">
+
+                {% if error %}
+                    <div class="p-4 bg-red-50 text-red-800 rounded font-medium">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="flex justify-center">
+                        {% if app.user.picture is not null %}
+{#                            <img src="{{ asset('uploads/user_images/') ~ app.user.picture }}" alt="Photo de profil de {{ app.user.fullname }}">#}
+                            <img src="https://via.placeholder.com/75" alt="Photo de profil" class="rounded object-cover w-24 h-24">
+                        {% else %}
+                            <img src="https://via.placeholder.com/145" alt="Photo de profil">
+                        {% endif %}
+                    </div>
+                    <div class="p-3 rounded bg-gray-100 text-gray-600 text-center">
+                        Vous êtes connecté(e) en tant que {{ app.user.fullname }}
+                        <a href="{{ path('app_logout') }}" title="Se déconnecter du compte"
+                                class="py-2 px-4 bg-gray-100 hover:bg-gray-200 border-2 border-gray-300 rounded text-center mt-4 text-red-600 hover:text-red-700 no-underline hover:underline block">Se déconnecter</a>
+                    </div>
+                {% else %}
+                <input type="hidden" name="remember" value="true">
+                <div class="rounded-md shadow-sm">
+                    <div class="mb-6">
+                        <label for="email-address" class="font-semibold text-gray-600">Adresse mail</label>
+                        <input id="email-address" value="{{ last_username }}" name="email" type="email"
+                               autocomplete="email" required autofocus
+                               class="appearance-none rounded-none relative block w-full mt-1 px-3 py-2 border-2 border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm hover:border-gray-400"
+                               placeholder="">
+                    </div>
+                    <div>
+                        <label for="password" class="font-semibold text-gray-600">Mot de passe</label>
+                        <input id="password" name="password" type="password" autocomplete="current-password" required
+                               class="appearance-none rounded-none relative block w-full mt-1 px-3 py-2 border-2 border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm hover:border-gray-400"
+                               placeholder="">
+                    </div>
+                </div>
+
+
+                <div>
+                    <button type="submit"
+                            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Se connecter
+                    </button>
+                    <div class="flex items-center justify-center mt-2">
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+                                Mot de passe oublié ?
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
