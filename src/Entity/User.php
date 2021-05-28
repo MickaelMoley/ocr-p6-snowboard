@@ -53,6 +53,14 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @Assert\EqualTo(
+     *     propertyPath="password",
+     *     message="La confirmation de mot de passe ne correspond pas au mot de passe"
+     * )
+     */
+    public $confirm_password;
+
+    /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
@@ -192,7 +200,7 @@ class User implements UserInterface
     /**
      * @param string $token
      */
-    public function setToken(string $token): void
+    public function setToken(?string $token): void
     {
         $this->token = $token;
     }

@@ -25,6 +25,12 @@
                 </div>
             {% endfor %}
 
+            {% for message in app.flashes('info') %}
+                <div class="p-4 bg-blue-100 text-blue-700 rounded">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
             <form class="mt-8 space-y-6 border-2 border-gray-200 p-6 rounded" action="{{ path('app_login') }}" method="POST">
 
                 {% if error %}
