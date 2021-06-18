@@ -1,0 +1,179 @@
+{% set form_input_class = 'rounded border-2 border-gray-100 border-solid focus:border-2 focus:border-gray-700 focus:border-solid hover:border-2 hover:border-gray-400 hover:border-solid p-2 w-full' %}
+{% set form_label_class = "block text-sm font-medium text-gray-700" %}
+{{ form_start(form) }}
+<section class="bg-center bg-cover bg-fixed bg-gradient-to-tl bg-gray-100 flex h-screen items-center justify-items-center text-gray-500 w-full" style="background-image: url('https://images.unsplash.com/photo-1522445263200-1b4b91053db8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+</section>
+
+<section class="-mt-96 absolute flex items-center justify-items-center text-gray-500 w-full z-10">
+    <div class="container lg:px-48 mx-auto relative rounded-md">
+       {# Permets de récupérer la première image pour l'afficher en couverture #}
+        {% set media_images = trick.medias|filter(x => x.type == 'image') %}
+        {% set featured_image = null %}
+        {% for media in media_images %}
+            {% if featured_image is null %}
+                {% set featured_image = media %}
+            {% endif %}
+        {% endfor %}
+
+        <div style="background-image: url('{% if trick.id != null and media_images|length > 0 %} {{ featured_image.link }}  {% endif %}');" class="bg-center bg-cover bg-gray-300 from-gray-400 relative to-gray-400 via-gray-700">
+            {#{% if trick.id != null %}
+                <div class="absolute bg-gray-100 mr-2 mt-2 right-0 rounded-lg shadow z-10 sm:mr-2 sm:mt-2 lg:mr-6 lg:mt-6 lg:p-2">
+                    <a href="" class="hover:bg-gray-200 inline-block px-2.5 py-1.5 rounded-sm" data-tooltip="eazezaeazezaeaz" title="Modifier la figure"><i class="fa-pen fa-sm fas"></i></a>
+                    <a href="" class="hover:bg-red-200 hover:text-red-500 inline-block px-2.5 py-1.5 rounded-sm" data-tooltip="Supprimer la figure" data-tooltip-position="top" title="Supprimer la figure"><i class="fa-sm fa-trash fas text-red-600"></i></a>
+                </div>
+            {% endif %}#}
+            <h1 class="font-semibold inline-block leading-tight my-40 text-4xl text-center text-gray-50 w-full">{{ trick.name|default('Nom de la figure') }}</h1>
+        </div>
+        <div class="bg-gray-50">
+            <div class="bg-gray-100 p-6 ">
+                <button id="see_media"
+                        class="my-4 text-center block w-full md:w-auto md:text-right py-2 px-4 bg-gray-200 hover:bg-gray-600 rounded text-gray-600 hover:text-gray-100 md:hidden"
+                >Voir les médias</button>
+                <div class="media_content md:block">
+                    <span class="block text-sm font-medium text-gray-700 mb-2">{{ form_label(form.medias) }}</span>
+
+                    {{ form_errors(form.medias) }}
+                    <ul class="medias-collections-container md:flex md:justify-start" data-index="{{ form.medias|length }}"
+                        data-prototype="{{ form_widget(form.medias.vars.prototype)|e('html_attr') }}">
+                        {% for index, media in form.medias %}
+                            <li class="mr-3 w-full md:w-6/12 lg:w-2/12"
+                                data-collection-form="#media_{{ index }}_form"
+                                data-media-type="{{ media.vars.value.type }}"
+                                data-media-name="{{ media.vars.value.name }}">
+
+                                <img src="{% if media.vars.value.type == 'image'%}{{ media.vars.value.link }}{% endif %}" class="object-center object-cover media_image" title="{% if media.vars.value.type == 'image'%}{{ media.vars.value.name }}{% endif%} "/>
+                                <div class="w-full aspect-w-16 aspect-h-9 media_video pb-2/3 relative">
+                                    {% if media.vars.value.type == 'video' %}{{ media.vars.value.link|raw }}{% endif %}
+                                </div>
+
+                                <div class="bg-gray-100 clear-right float-right inline-block mt-2 mx-auto shadow z-10 lg:p-2">
+                                    <a class="edit_media hover:bg-gray-200 inline-block px-2.5 py-1.5 rounded-sm" data-tooltip="eazezaeazezaeaz" title="Modifier la figure"><i class="fa-pen fa-sm fas"></i></a>
+                                    <a class="remove_media hover:bg-red-200 hover:text-red-500 inline-block px-2.5 py-1.5 rounded-sm" data-tooltip="Supprimer la figure" data-tooltip-position="top" title="Supprimer la figure"><i class="fa-sm fa-trash fas text-red-600"></i></a>
+                                </div>
+                                <div id="media_{{ index }}_form" class="collection_form hidden pt-4">
+                                    {{ form_errors(media) }}
+                                    <fieldset class="mb-4">
+                                        {{ form_row(media.name, {"attr": {"class": form_input_class }}) }}
+                                    </fieldset>
+                                    <fieldset class="mb-4">
+                                        {{ form_row(media.link, {"attr": {"class": form_input_class }}) }}
+                                    </fieldset>
+                                    <fieldset class="mb-4">
+                                        {{ form_row(media.type, {"attr": {"class": form_input_class }}) }}
+                                    </fieldset>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <a id="add_media"
+                            class="mt-4 text-center block md:float-right py-2 px-4 bg-gray-200 hover:bg-gray-600 rounded text-gray-600 hover:text-gray-100"
+                    >Ajouter une media</a>
+                </div>
+
+
+            </div>
+
+            <div class="p-6" rows="10">
+                <fieldset class="mb-4">
+                    <span class="block text-sm font-medium text-gray-700 mb-1">{{ form_label(form.name) }}</span>
+                    {{ form_errors(form.name) }}
+                    {{ form_widget(form.name, {"attr": {"class": "border-2 border-gray-100 border-solid focus:border-2 focus:border-gray-700 focus:border-solid hover:border-2 hover:border-gray-400 hover:border-solid p-2 w-full"}}) }}
+                </fieldset>
+
+                <fieldset class="mb-4">
+                    <span class="block text-sm font-medium text-gray-700 mb-1">{{ form_label(form.description) }}</span>
+                    {{ form_errors(form.description) }}
+                    {{ form_widget(form.description, {"attr": {"class": "border-2 border-gray-100 border-solid focus:border-2 focus:border-gray-700 focus:border-solid hover:border-2 hover:border-gray-400 hover:border-solid p-2 w-full"}}) }}
+                </fieldset>
+                <fieldset class="mb-4">
+                    <span class="text-sm font-medium text-gray-700 mb-1">{{ form_label(form.category) }}</span>
+                    {{ form_errors(form.category) }}
+                    {{ form_widget(form.category, {"attr": {"class": "border-2 border-gray-100 border-solid focus:border-2 focus:border-gray-700 focus:border-solid hover:border-2 hover:border-gray-400 hover:border-solid p-2 w-full"}}) }}
+                </fieldset>
+                {#{{ form_rest(form) }}#}
+                <div class="my-6 text-center">
+                    <button id="form_delete_button" class="bg-red-100 hover:bg-red-600 hover:rounded hover:shadow px-4 py-2.5 text-red-800 hover:bg-gray-50">Supprimer</button>
+                    <button id="btn_submit" class="bg-gray-600 hover:bg-gray-800 hover:rounded hover:shadow px-4 py-2.5 text-gray-200 hover:text-gray-100 rounded">{{ button_label|default('Créer la figure') }}</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<div id="modal_pick_media_type" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <!--
+          Background overlay, show/hide based on modal state.
+
+          Entering: "ease-out duration-300"
+            From: "opacity-0"
+            To: "opacity-100"
+          Leaving: "ease-in duration-200"
+            From: "opacity-100"
+            To: "opacity-0"
+        -->
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+        <!-- This element is to trick the browser into centering the modal contents. -->
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+        <!--
+          Modal panel, show/hide based on modal state.
+
+          Entering: "ease-out duration-300"
+            From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            To: "opacity-100 translate-y-0 sm:scale-100"
+          Leaving: "ease-in duration-200"
+            From: "opacity-100 translate-y-0 sm:scale-100"
+            To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        -->
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="">
+
+                    <div class="mt-3 text-center ">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                            Ajouter un média
+                        </h3>
+                        <div class="mt-2">
+                            <p class="text-sm text-gray-500">
+                               Vous pouvez ajouter un nombre illimité de médias à cette figure. Vous avez le choix entre ajouter une image et une vidéo.
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            <a id="pick_media_image" class="mt-6 p-6 bg-gray-50 rounded hover:bg-blue-500 text-gray-800 hover:text-gray-100">
+                                <h3 class=" mb-2">Image</h3>
+                                <p class="text-sm opacity-60">Ajouter une image</p>
+                            </a>
+                            <a id="pick_media_video"  class="mt-6 p-6 bg-gray-50 rounded hover:bg-blue-500 text-gray-800 hover:text-gray-100">
+                                <h3 class=" mb-2">Vidéo</h3>
+                                <p class="text-sm opacity-60">Ajouter une vidéo</p>
+                            </a>
+                        </div>
+                        <a id="pick_media_cancel" class="mt-4 text-gray-600 hover:text-gray-900 text-center text-sm underline">J'ajouterai des médias plus tard</a>
+                    </div>
+                </div>
+            </div>
+            {#<div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                    Deactivate
+                </button>
+                <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                    Cancel
+                </button>
+            </div>#}
+
+        </div>
+    </div>
+</div>
+
+{{ include('partials/modal.html.twig', {'form': form}) }}
+
+{{ form_end(form) }}
+{% if trick.id != null %}
+    {{ include('trick/_delete_form.html.twig') }}
+{% endif %}
+{% block javascripts %}
+    <script src="{{ asset('assets/js/medias.form.js') }}"></script>
+{% endblock javascripts %}

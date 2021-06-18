@@ -2,18 +2,43 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
+        <title>{% block title %}Bienvenue sur Snowboard!{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.0.2/dist/tailwind.min.css">
+        <script>/* Pinegrow Interactions, do not remove */ (function(){try{if(!document.documentElement.hasAttribute('data-pg-ia-disabled')) { window.pgia_small_mq=typeof pgia_small_mq=='string'?pgia_small_mq:'(max-width:767px)';window.pgia_large_mq=typeof pgia_large_mq=='string'?pgia_large_mq:'(min-width:768px)';var style = document.createElement('style');var pgcss='html:not(.pg-ia-no-preview) [data-pg-ia-hide=""] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show=""] {opacity:1;visibility:visible;display:block;}';if(document.documentElement.hasAttribute('data-pg-id') && document.documentElement.hasAttribute('data-pg-mobile')) {pgia_small_mq='(min-width:0)';pgia_large_mq='(min-width:99999px)'} pgcss+='@media ' + pgia_small_mq + '{ html:not(.pg-ia-no-preview) [data-pg-ia-hide="mobile"] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show="mobile"] {opacity:1;visibility:visible;display:block;}}';pgcss+='@media ' + pgia_large_mq + '{html:not(.pg-ia-no-preview) [data-pg-ia-hide="desktop"] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show="desktop"] {opacity:1;visibility:visible;display:block;}}';style.innerHTML=pgcss;document.querySelector('head').appendChild(style);}}catch(e){console&&console.log(e);}})()</script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css">
+        <link href="main.css" rel="stylesheet" type="text/css">
+
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
+            <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
         {% endblock %}
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
+
     </head>
-    <body>
+    <body class=" text-gray-700">
+    <header class="bg-opacity-95 bg-white fixed w-full z-20" data-pg-ia>
+        <nav class="container flex flex-wrap items-center mx-auto px-4 py-5">
+            <a href="{{ path('trick_index') }}" class="font-medium hover:text-blue-800 mr-auto text-2xl text-blue-600 uppercase">Snowboard</a>
+            <button class="hover:bg-blue-600 hover:text-white px-3 py-2 rounded text-blue-600 lg:hidden" data-name="nav-toggler" data-pg-ia='{"l":[{"name":"NabMenuToggler","trg":"click","a":{"l":[{"t":"^nav|[data-name=nav-menu]","l":[{"t":"set","p":0,"d":0,"l":{"class.remove":"hidden"}}]},{"t":"#gt# span:nth-of-type(1)","l":[{"t":"tween","p":0,"d":0.2,"l":{"rotationZ":45,"yPercent":300}}]},{"t":"#gt# span:nth-of-type(2)","l":[{"t":"tween","p":0,"d":0.2,"l":{"autoAlpha":0}}]},{"t":"#gt# span:nth-of-type(3)","l":[{"t":"tween","p":0,"d":0.2,"l":{"rotationZ":-45,"yPercent":-300}}]}]},"pdef":"true","trev":"true"}]}'>
+                <span class="block border-b-2 border-current my-1 w-6"></span>
+                <span class="block border-b-2 border-current my-1 w-6"></span>
+                <span class="block border-b-2 border-current my-1 w-6"></span>
+            </button>
+            <div class="lg:flex lg:items-center lg:space-x-4 lg:space-y-0 lg:w-auto space-y-2 w-full hidden" data-name="nav-menu">
+                <div class="flex flex-col lg:flex-row">
+                    <a href="{{ path('trick_index') }}" title="Accéder à la page d'accueil" class="font-light hover:text-blue-600 px-0 py-2 lg:px-4">Accueil</a>
+                    <a href="#" class="font-light hover:text-blue-600 px-0 py-2 lg:px-4">Se connecter</a>
+                    <a href="#" class="font-light hover:text-blue-600 px-0 py-2 lg:px-4">S'inscrire</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="relative">
         {% block body %}{% endblock %}
+    </main>
+    {% block javascripts %}
+        <script src="{{ asset('assets/js/pgia/lib/pgia.js') }}"></script>
+    {% endblock %}
     </body>
 </html>
