@@ -1,0 +1,28 @@
+
+
+{% block trick_media_widget %}
+    {% set form_input_class = 'rounded border-2 border-gray-100 border-solid focus:border-2 focus:border-gray-700 focus:border-solid hover:border-2 hover:border-gray-400 hover:border-solid p-2 w-full' %}
+    {% set form_label_class = "block text-sm font-medium text-gray-700" %}
+    <li class="mr-3 w-full md:w-6/12 lg:w-2/12" data-collection-form="#media_{{ form.parent.vars.prototype.vars.name }}_form">
+        <img src="" class="object-center object-cover media_image"/>
+        <div class="w-full aspect-w-16 aspect-h-9 media_video pb-2/3 relative">
+        </div>
+        <div class="bg-gray-100 clear-right float-right inline-block mt-2 mx-auto shadow z-10 lg:p-2">
+            <a class="edit_media hover:bg-gray-200 inline-block px-2.5 py-1.5 rounded-sm" data-tooltip="eazezaeazezaeaz" title="Modifier la figure"><i class="fa-pen fa-sm fas"></i></a>
+            <a class="remove_media hover:bg-red-200 hover:text-red-500 inline-block px-2.5 py-1.5 rounded-sm" data-tooltip="Supprimer la figure" data-tooltip-position="top" title="Supprimer la figure"><i class="fa-sm fa-trash fas text-red-600"></i></a>
+        </div>
+        <div id="media_{{ form.parent.vars.prototype.vars.name }}_form" class="collection_form hidden">
+            {{ form_errors(form) }}
+            <fieldset class="mb-4">
+                {{ form_row(form.name, {"attr": {"class": form_input_class }}) }}
+            </fieldset>
+            <fieldset class="mb-4">
+            {{ form_row(form.link, {"attr": {"class": form_input_class }}) }}
+            </fieldset>
+                <fieldset class="mb-4">
+            {{ form_row(form.type, {"attr": {"class": form_input_class }}) }}
+                </fieldset>
+        </div>
+    </li>
+
+{% endblock %}
