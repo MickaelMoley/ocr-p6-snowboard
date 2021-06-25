@@ -31,7 +31,7 @@
                 {% endif %}
                 <h1 class="font-semibold inline-block leading-tight my-40 text-4xl text-center text-gray-50 w-full">{{ trick.name|default('Nom de la figure') }}</h1>
             </div>
-            <div class="bg-gray-50">
+            <div class="bg-gray-50  mb-4">
                 <div class="bg-gray-100 p-6 ">
                     <button id="see_media"
                             class="my-4 text-center block w-full md:w-auto md:text-right py-2 px-4 bg-gray-200 hover:bg-gray-600 rounded text-gray-600 hover:text-gray-100 md:hidden"
@@ -57,21 +57,37 @@
 
 
                 </div>
-
-                <div class="p-6 mb-4" rows="10">
+                <div class="px-4 py-6 xl:px-40 xl:py-6">
                     {{ trick.description|nl2br }}
+                    <div class="my-6 text-center">
+                        {% if trick.category %}<a href="" class="inline-block p-2 bg-blue-100 text-blue-600 hover:bg-blue-200 hover:text-blue-700 rounded mb-4 md:mb-0">Catégorie : {{ trick.category.name }}</a>{% endif %}
+                        <span class="inline-block p-2 bg-gray-100 text-gray-600 rounded mb-4 md:mb-0">Date de création : {{ trick.createdAt|date('d/m/Y') }}</span>
+                        {% if trick.updatedAt %}<span class="inline-block p-2 bg-gray-100 text-gray-600 rounded">Date de modification : {{ trick.updatedAt|date('d/m/Y') }}</span>{% endif %}
+                    </div>
                 </div>
-                <div class="text-center flex justify-center">
-                   <div>
-                       {% if trick.category %}<a href="" class="inline-block p-2 bg-blue-100 text-blue-600 hover:bg-blue-200 hover:text-blue-700 rounded mb-4 md:mb-0">Catégorie : {{ trick.category.name }}</a>{% endif %}
-                       <span class="inline-block p-2 bg-gray-100 text-gray-600 rounded mb-4 md:mb-0">Date de création : {{ trick.createdAt|date('d/m/Y') }}</span>
-                       {% if trick.updatedAt %}<span class="inline-block p-2 bg-gray-100 text-gray-600 rounded">Date de modification : {{ trick.updatedAt|date('d/m/Y') }}</span>{% endif %}
-                   </div>
-                </div>
-            </div>
-            <hr>
-            <div>
+                <div class="flex flex-col justify-center px-4 py-6 xl:px-40 xl:py-6">
+                    <hr class="border-b w-full">
+                    {% if app.user %}
+                        {{ include('comment/_form.html.twig') }}
+                    {% endif %}
+                    <hr>
+                    <div class="my-6">
+                        {% for comment in comments|reverse    %}
+                            <div class="flex items-start mb-4">
+                                <img src="http://pinegrow.com/placeholders/img16.jpg" class="h-12 object-center object-cover rounded-full w-12">
+                                <div class="bg-gray-100 flex flex-col ml-2 p-2 rounded w-full">
+                                    <span class="font-medium leading-normal text-base text-gray-800">{{ comment.author.fullname }}</span>
+                                    <span class="font-light mb-4 text-gray-500 text-sm">Posté le {{ comment.createdAt|date('d-m-Y à H:i')}}</span>
+                                    <p>{{ comment.message }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
 
+                    </div>
+                    <div class="mt-8 text-center">
+                        <a href="{{ path('trick_show', {slug:trick.slug, commentLimit: limitComment}) }}" class="bg-gray-100 hover:rounded hover:shadow px-4 py-2.5 text-gray-800">Voir plus</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,14 +67,67 @@ class TrickController extends AbstractController
 
     /**
      * Fonction pour afficher un trick
-     * @Route("/{slug}", name="trick_show", methods={"GET"})
+     * @Route("/{slug}", name="trick_show", methods={"GET", "POST"})
      * @param Trick $trick
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function show(Trick $trick): Response
+    public function show(Trick $trick, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser(); //On récupère l'utilisateur actuel
+        /**
+         * Gérer le chargement des commentaires
+         */
+        $defaultLimitComment = 2;
+        $requestCommentLimit = $request->query->get('commentLimit');
+        $limit = null;
+        /*
+         *
+         *Si l'utilisateur clique sur le bouton "Voir plus", il sera redirigé sur la même page avec le paramètre 'commentList'.
+         * Ce qui permettra de définir une nouvelle limit de charger les commentaires.
+         */
+        if($requestCommentLimit)
+        {
+            $limit = $requestCommentLimit;
+        }
+        else {
+            $limit = $defaultLimitComment;
+        }
+
+        $comments = $entityManager->getRepository(Comment::class)->loadComment($trick, $limit);
+
+
+        //Si un utilisateur est connecté alors on affiche le formulaire de commentaire
+       if($user)
+       {
+           $comment = new Comment();
+           $comment->setAuthor($user); //On défini l'auteur du commentaire
+           $formComment = $this->createForm(CommentType::class, $comment);
+
+           $formComment->handleRequest($request);
+            //Si le formulaire a été soumis et que celui-ci est valide
+           if($formComment->isSubmitted() && $formComment->isValid()){
+               $comment->setCreatedAt(new \DateTime('now'));
+               $comment->setTrick($trick); //On le relié à ce trick
+
+               $entityManager->persist($comment);
+               $entityManager->flush();
+
+           }
+
+           return $this->render('trick/show.html.twig', [
+               'trick' => $trick,
+               'comments' => $comments,
+               'form' => $formComment->createView(),
+               'limitComment' => ($limit + $defaultLimitComment)
+        ]);
+       }
+
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
+            'comments' => $comments,
+            'limitComment' => ($limit + $defaultLimitComment)
         ]);
     }
 
@@ -112,7 +167,7 @@ class TrickController extends AbstractController
 
     /**
      * Fonction de suppression d'un trick
-     * @Route("/{id}", name="trick_delete", methods={"POST"})
+     * @Route("/{id}/delete", name="trick_delete", methods={"POST"})
      * @param Request $request
      * @param Trick $trick
      * @return Response
