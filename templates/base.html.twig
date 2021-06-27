@@ -19,6 +19,16 @@
 
     </head>
     <body class=" text-gray-700">
+    {% for message in app.flashes('error') %}
+        <div class="relative z-50 p-4 bg-red-100 text-red-600 text-center">
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('success') %}
+        <div class="relative z-50 p-4 bg-green-100 text-green-600 text-center">
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
     <header class="bg-opacity-95 bg-white fixed w-full z-20" data-pg-ia>
         <nav class="container flex flex-wrap items-center mx-auto px-4 py-5">
             <a href="{{ path('trick_index') }}" class="font-medium hover:text-blue-800 mr-auto text-2xl text-blue-600 uppercase">Snowboard</a>
@@ -30,8 +40,17 @@
             <div class="lg:flex lg:items-center lg:space-x-4 lg:space-y-0 lg:w-auto space-y-2 w-full hidden" data-name="nav-menu">
                 <div class="flex flex-col lg:flex-row">
                     <a href="{{ path('trick_index') }}" title="Accéder à la page d'accueil" class="font-light hover:text-blue-600 px-0 py-2 lg:px-4">Accueil</a>
-                    <a href="#" class="font-light hover:text-blue-600 px-0 py-2 lg:px-4">Se connecter</a>
-                    <a href="#" class="font-light hover:text-blue-600 px-0 py-2 lg:px-4">S'inscrire</a>
+                   {% if app.user is null %}
+                    <a href="{{ path('app_login') }}" class="font-light hover:text-blue-600 px-0 py-2 lg:px-4">Se connecter</a>
+                    <a href="{{ path('app_register') }}" class="font-light hover:text-blue-600 px-0 py-2 lg:px-4">S'inscrire</a>
+                    {% else %}
+                        <div class="px-2 py-2 rounded bg-gray-200">
+                           <span class="text-gray-600 mr-3"> {{ app.user.fullname }}</span>
+                            •
+                            <a href="{{ path('app_logout') }}" title="Se déconnecter"
+                               class="text-red-400 hover:text-red-800 ml-3"><i class="fa fa-sign-out-alt"></i></a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </nav>

@@ -39,30 +39,36 @@ class TrickController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $trick = new Trick();
-        $form = $this->createForm(TrickType::class, $trick);
-        $form->handleRequest($request);
+        if($this->getUser())
+        {
+            $trick = new Trick();
+            $form = $this->createForm(TrickType::class, $trick);
+            $form->handleRequest($request);
 
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $trick->setCreatedAt(new \DateTime('now'));
-            $trick->setUpdatedAt(new \DateTime('now'));
-            $trick->setSlug($this->slugify($trick->getName()));
+                $trick->setCreatedAt(new \DateTime('now'));
+                $trick->setUpdatedAt(new \DateTime('now'));
+                $trick->setSlug($this->slugify($trick->getName()));
 
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($trick);
-            $entityManager->flush();
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($trick);
+                $entityManager->flush();
+                $this->addFlash('success', "La figure ". $trick->getName() ." a bien été créée.");
+                return $this->redirectToRoute('trick_edit', ['slug' => $trick->getSlug()]);
+            }
 
-            return $this->redirectToRoute('trick_edit', ['slug' => $trick->getSlug()]);
+            return $this->render('trick/new.html.twig', [
+                'trick' => $trick,
+                'form' => $form->createView(),
+            ]);
         }
 
-        return $this->render('trick/new.html.twig', [
-            'trick' => $trick,
-            'form' => $form->createView(),
-        ]);
+        $this->addFlash('error', "Vous n'êtes pas autorisé à créer une nouvelle figure. Veuillez vous connecter afin de pouvoir créer une figure.");
+        return $this->redirectToRoute('trick_index');
     }
 
     /**
@@ -141,28 +147,33 @@ class TrickController extends AbstractController
      */
     public function edit(Request $request, Trick $trick): Response
     {
-        $form = $this->createForm(TrickType::class, $trick);
-        $form->handleRequest($request);
+        if($this->getUser())
+        {
+            $form = $this->createForm(TrickType::class, $trick);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $trick = $form->getData();
+                $trick = $form->getData();
 
-            foreach ($trick->getMedias() as $media)
-            {
-                $media->setTrick($trick);
-                $this->getDoctrine()->getManager()->persist($media);
+                foreach ($trick->getMedias() as $media)
+                {
+                    $media->setTrick($trick);
+                    $this->getDoctrine()->getManager()->persist($media);
+                }
+
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('trick_edit', ['slug' => $trick->getSlug()]);
             }
 
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('trick_edit', ['slug' => $trick->getSlug()]);
+            return $this->render('trick/edit.html.twig', [
+                'trick' => $trick,
+                'form' => $form->createView(),
+            ]);
         }
-
-        return $this->render('trick/edit.html.twig', [
-            'trick' => $trick,
-            'form' => $form->createView(),
-        ]);
+        $this->addFlash('error', "Vous n'êtes pas autorisé à modifier cette figure. Veuillez vous connecter afin de pouvoir modifier cette figure.");
+        return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
     }
 
     /**
