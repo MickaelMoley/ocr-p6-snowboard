@@ -25,7 +25,7 @@ window.onload = function () {
             let index = mediasCollectionContainer.getAttribute("data-index");
 
             let newForm = prototype.replace(/__name__/g, index);
-            mediasCollectionContainer.setAttribute("data-index", parseInt(index) + 1);
+            mediasCollectionContainer.setAttribute("data-index", parseInt(index, 10) + 1);
 
             let $builder_content = document.querySelector("#collection_form_builder_content");
             mediasCollectionContainer.innerHTML += newForm;
@@ -195,7 +195,7 @@ window.onload = function () {
         }
 
 
-    })
+    });
 
     //Active les collapsible
     var coll = document.querySelectorAll("#see_media");
@@ -207,9 +207,9 @@ window.onload = function () {
             this.classList.toggle("active");
             var content = this.nextElementSibling;
             if (!content.classList.contains("hide")) {
-                content.classList.add("hide")
+                content.classList.add("hide");
             } else {
-                content.classList.remove("hide")
+                content.classList.remove("hide");
             }
         });
     }
