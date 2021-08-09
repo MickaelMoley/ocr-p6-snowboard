@@ -3,48 +3,41 @@
 {% block title %}Trick index{% endblock %}
 
 {% block body %}
-    <main class="relative">
-        <section class="bg-gray-100 flex h-screen items-center justify-items-center relative text-gray-500">
-            <div class="container mx-auto">
-                <div class="flex flex-wrap -mx-4">
-                    <div class="mx-auto px-4 text-center w-full lg:w-8/12 xl:w-6/12">
-                        <h1 class="font-semibold text-6xl text-gray-900" data-pg-ia='{"l":[{"name":"heading_animation","trg":"now","a":"fadeInDown"}]}'>Devenez le pro du Snowboard</h1>
-                    </div>
+
+    <section class="bg-gray-100 flex h-screen items-center justify-items-center relative text-gray-500">
+        <div class="container mx-auto">
+            <div class="flex flex-wrap -mx-4">
+                <div class="mx-auto px-4 text-center w-full lg:w-8/12 xl:w-6/12">
+                    <h1 class="font-semibold text-6xl text-gray-900" data-pg-ia='{"l":[{"name":"heading_animation","trg":"now","a":"fadeInDown"}]}'>Devenez le pro du Snowboard</h1>
                 </div>
             </div>
-        </section>
-        <section class="py-10">
-            <div class="container mx-auto px-4 relative">
-                <div class="flex flex-wrap -mx-4  justify-center">
-                    {% for trick in tricks %}
 
-                        {# Permets de récupérer la première image pour l'afficher en couverture #}
-                        {% set media_images = trick.medias|filter(x => x.type == 'image') %}
-                        {% set featured_image = null %}
-                        {% for media in media_images %}
-                            {% if featured_image is null %}
-                                {% set featured_image = media %}
-                            {% endif %}
-                        {% endfor %}
-
-                        <div class="p-4 w-full md:w-6/12 lg:w-3/12">
-                            <div class="hover:shadow rounded shadow">
-                                <a href="" class="block hover:opacity-75"><img src="{% if trick.id != null and media_images|length > 0 %} {{ featured_image.link }}  {% endif %}" class="w-full"/></a>
-                                <div class="flex items-center justify-between p-2.5 text-gray-600 text-xs">
-                                    <a href="{{ path('trick_show', {slug:trick.slug}) }}" class="hover:text-green-600 inline-flex items-center mr-2.5 space-x-2 truncate" title="Back Flip : La super figure"> <h5 class="font-semibold leading-tight text-xl">
+        </div>
+    </section>
+    <section class="py-10">
+        <div class="container mx-auto px-4 relative">
+            <div class="flex flex-wrap -mx-4  justify-center">
+                {% for trick in tricks %}
+                    <div class="p-4 w-full md:w-6/12 lg:w-3/12">
+                        <div class="hover:shadow rounded shadow">
+                            <a href="" class="block hover:opacity-75"><img src="https://images.unsplash.com/photo-1468818438311-4bab781ab9b8?ixid=MXwyMDkyMnwwfDF8c2VhcmNofDI4fHx0cmF2ZWx8ZW58MHx8fA&ixlib=rb-1.2.1q=85&fm=jpg&crop=faces&cs=srgb&w=350&h=240&fit=crop" class="w-full"/></a>
+                            <div class="flex items-center justify-between p-2.5 text-gray-600 text-xs">
+                                <a href="{{ path('trick_show', {slug:trick.slug}) }}" class="hover:text-green-600 inline-flex items-center mr-2.5 space-x-2 truncate" title="Back Flip : La super figure"> <h5 class="font-semibold leading-tight text-xl">
                                         {{  trick.name }}</h5>
-                                    </a>
+                                </a>
+                                {% if app.user %}
                                     <div class="inline-flex">
                                         <a href="{{ path('trick_edit', {"slug": trick.slug}) }}" class="hover:bg-gray-200 hover:mr-2 mr-2 p-2.5 rounded-sm" data-tooltip="eazezaeazezaeaz" title="Modifier la figure"><i class="fa-lg fa-pen fas"></i></a>
                                         <a href="{{ path('trick_delete', {"id": trick.id}) }}" class="hover:bg-red-200 hover:text-red-500 p-2.5 rounded-sm" data-tooltip="Supprimer la figure" data-tooltip-position="top" title="Supprimer la figure"><i class="fa-lg fa-trash fas"></i></a>
                                     </div>
-                                </div>
+                                {% endif %}
                             </div>
                         </div>
+                    </div>
 
-                    {% endfor %}
-                </div>
+                {% endfor %}
             </div>
+
         </section>
         <div class="container mx-auto p-10 text-center">
             <a href="{{ path('trick_index', { limit: limitTrick}) }}" class="bg-blue-500 hover:bg-blue-600 px-6 py-4 rounded text-gray-100">Voir plus de figures</a>

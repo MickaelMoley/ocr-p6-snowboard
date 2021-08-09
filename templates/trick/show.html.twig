@@ -18,7 +18,7 @@
             {% endfor %}
 
             <div style="background-image: url('{% if trick.id != null and media_images|length > 0 %} {{ featured_image.link }}  {% endif %}');" class="bg-center bg-cover bg-gray-300 from-gray-400 relative to-gray-400 via-gray-700">
-                {% if trick.id != null %}
+                {% if trick.id != null and app.user %}
                     <div class="absolute bg-gray-100 mr-2 mt-2 right-0 rounded-lg shadow z-10 sm:mr-2 sm:mt-2 lg:mr-6 lg:mt-6 lg:p-2">
                         <a href="{{ path('trick_edit', {slug: trick.slug}) }}" class="hover:bg-gray-200 inline-block px-2.5 py-1.5 rounded-sm" data-tooltip="eazezaeazezaeaz" title="Modifier la figure"><i class="fa-pen fa-sm fas"></i></a>
                         {# Suppression d'un trick #}
