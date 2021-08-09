@@ -52,3 +52,6 @@ Un jeu de donnée contenant des figures est présent dans le projet. Il suffit d
 Ensuite, entrez : `yes` ou `y` pour continuer la procédure.
 En acceptant, cela aura pour effet de supprimer les entrées déjà présentes dans la base de données.
 
+## Analyse Codacy
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/ba6f3ee051b34594afdc559277c8de9a)](https://www.codacy.com/gh/MickaelMoley/ocr-p6-snowboard/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MickaelMoley/ocr-p6-snowboard&amp;utm_campaign=Badge_Grade)
+
