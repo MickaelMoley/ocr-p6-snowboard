@@ -24,10 +24,35 @@ class TrickController extends AbstractController
      * @param TrickRepository $trickRepository
      * @return Response
      */
-    public function index(TrickRepository $trickRepository): Response
+    public function index(TrickRepository $trickRepository, Request $request): Response
     {
+        /**
+         * Gérer le chargement des figures
+         */
+        $defaultLimitTricks = 3;
+        $requestLimitTrick = $request->query->get('limit');
+        $limit = null;
+        /*
+         *
+         *Si l'utilisateur clique sur le bouton "Voir plus", il sera redirigé sur la même page avec le paramètre 'limit'.
+         * Ce qui permettra de définir une nouvelle limite de charger les figures.
+         */
+        if($requestLimitTrick)
+        {
+            $limit = $requestLimitTrick;
+        }
+        else {
+            $limit = $defaultLimitTricks;
+        }
+
+        /**
+         * On récupère un certain nombre de tricks
+         */
+        $tricks = $trickRepository->loadTricks($limit);
+
         return $this->render('trick/index.html.twig', [
-            'tricks' => $trickRepository->findAll(),
+            'tricks' => $tricks,
+            'limitTrick' => ($limit + $defaultLimitTricks)
         ]);
     }
 

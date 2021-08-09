@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Back Flip",
+    "description": "Un flip est une rotation verticale. On distingue les front flips, rotations en avant, et les back flips, rotations en arrière.\n\nIl est possible de faire plusieurs flips à la suite, et d'ajouter un grab à la rotation.\n\nLes flips agrémentés d'une vrille existent aussi (Mac Twist, Hakon Flip...), mais de manière beaucoup plus rare, et se confondent souvent avec certaines rotations horizontales désaxées.\n\nNéanmoins, en dépit de la difficulté technique relative d'une telle figure, le danger de retomber sur la tête ou la nuque est réel et conduit certaines stations de ski à interdire de telles figures dans ses snowparks. ",
+    "category" : "Flip",
+    "medias" : [
+      {
+        "name" : "Image de snowboard",
+        "type" : "image",
+        "link" : "https://via.placeholder.com/125"
+      },
+      {
+        "name" : "Image de snowboard",
+        "type" : "image",
+        "link" : "https://via.placeholder.com/125"
+      },
+      {
+        "name" : "Image de snowboard",
+        "type" : "image",
+        "link" : "https://via.placeholder.com/125"
+      }
+    ]
+  },
+  {
+    "name": "Front Flip",
+    "description": "Un flip est une rotation verticale. On distingue les front flips, rotations en avant, et les back flips, rotations en arrière.\n\nIl est possible de faire plusieurs flips à la suite, et d'ajouter un grab à la rotation.\n\nLes flips agrémentés d'une vrille existent aussi (Mac Twist, Hakon Flip...), mais de manière beaucoup plus rare, et se confondent souvent avec certaines rotations horizontales désaxées.\n\nNéanmoins, en dépit de la difficulté technique relative d'une telle figure, le danger de retomber sur la tête ou la nuque est réel et conduit certaines stations de ski à interdire de telles figures dans ses snowparks. ",
+    "category" : "Flip",
+    "medias" : [
+      {
+        "name" : "Image de snowboard",
+        "type" : "image",
+        "link" : "https://via.placeholder.com/125"
+      },
+      {
+        "name" : "Image de snowboard",
+        "type" : "image",
+        "link" : "https://via.placeholder.com/125"
+      },
+      {
+        "name" : "Image de snowboard",
+        "type" : "image",
+        "link" : "https://via.placeholder.com/125"
+      }
+    ]
+  }
+]

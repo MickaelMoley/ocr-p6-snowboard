@@ -1,25 +1,23 @@
 .media_video > iframe {
-    width: 100%;
-    height: 100%;
-    /*position: absolute;*/
+  width: 100%;
+  height: 100%;
 }
 
 .media_content {
-    overflow: hidden;
-    background-color: #f1f1f1;
-}
-.media_content.hide
-{
-    display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
 }
 
-@media screen and (min-width: 1024px){
+.media_content.hide {
+  display: none;
+}
 
-    .media_content {
-        display: block;
-    }
-    .media_content.hide
-    {
-        display: block;
-    }
+@media screen and (min-width: 1024px) {
+  .media_content {
+    display: block;
+  }
+
+  .media_content.hide {
+    display: block;
+  }
 }
