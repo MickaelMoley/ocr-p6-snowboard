@@ -9,6 +9,7 @@ use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -74,16 +75,24 @@ class TrickController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                $trick->setCreatedAt(new \DateTime('now'));
-                $trick->setUpdatedAt(new \DateTime('now'));
-                $trick->setSlug($this->slugify($trick->getName()));
+                if(!$this->checkIfTrickAlreadyExist($trick->getName()))
+                {
+                    $trick->setCreatedAt(new \DateTime('now'));
+                    $trick->setUpdatedAt(new \DateTime('now'));
+                    $trick->setSlug($this->slugify($trick->getName()));
+    
+    
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($trick);
+                    $entityManager->flush();
+                    $this->addFlash('success', "La figure ". $trick->getName() ." a bien été créée.");
+                    return $this->redirectToRoute('trick_edit', ['slug' => $trick->getSlug()]);
+                }
 
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($trick);
-                $entityManager->flush();
-                $this->addFlash('success', "La figure ". $trick->getName() ." a bien été créée.");
-                return $this->redirectToRoute('trick_edit', ['slug' => $trick->getSlug()]);
+                else {
+                    $form->get('name')->addError(new FormError('La figure est déjà présente en base de donnée.'));
+                }
+                
             }
 
             return $this->render('trick/new.html.twig', [
@@ -226,5 +235,19 @@ class TrickController extends AbstractController
     public function slugify(?string $name)
     {
         return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name), '-'));
+    }
+
+    /**
+     * Fonction permettant de vérifier si une figure est existe
+     */
+    public function checkIfTrickAlreadyExist(string $trick_ref)
+    {
+            $trick = $this->getDoctrine()->getManager()->getRepository(Trick::class)->findOneBy(['slug' => $this->slugify($trick_ref)]);
+
+            if($trick)
+            {
+                return true;
+            }
+            return false;
     }
 }
