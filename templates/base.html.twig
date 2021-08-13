@@ -29,7 +29,7 @@
             <p>{{ message }}</p>
         </div>
     {% endfor %}
-    <header class="bg-opacity-95 bg-white fixed w-full z-20" data-pg-ia>
+    <header class="bg-opacity-95 bg-white fixed w-full z-20" data-pg-ia style="position:sticky; top:0;">
         <nav class="container flex flex-wrap items-center mx-auto px-4 py-5">
             <a href="{{ path('trick_index') }}" class="font-medium hover:text-blue-800 mr-auto text-2xl text-blue-600 uppercase">Snowboard</a>
             <button class="hover:bg-blue-600 hover:text-white px-3 py-2 rounded text-blue-600 lg:hidden" data-name="nav-toggler" data-pg-ia='{"l":[{"name":"NabMenuToggler","trg":"click","a":{"l":[{"t":"^nav|[data-name=nav-menu]","l":[{"t":"set","p":0,"d":0,"l":{"class.remove":"hidden"}}]},{"t":"#gt# span:nth-of-type(1)","l":[{"t":"tween","p":0,"d":0.2,"l":{"rotationZ":45,"yPercent":300}}]},{"t":"#gt# span:nth-of-type(2)","l":[{"t":"tween","p":0,"d":0.2,"l":{"autoAlpha":0}}]},{"t":"#gt# span:nth-of-type(3)","l":[{"t":"tween","p":0,"d":0.2,"l":{"rotationZ":-45,"yPercent":-300}}]}]},"pdef":"true","trev":"true"}]}'>
