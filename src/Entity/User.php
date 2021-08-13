@@ -73,6 +73,12 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled = false;
+
 
     public function __construct()
     {
@@ -246,4 +252,28 @@ class User implements UserInterface
 
 
 
+
+    /**
+     * Get the value of enabled
+     *
+     * @return  bool
+     */ 
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set the value of enabled
+     *
+     * @param  bool  $enabled
+     *
+     * @return  self
+     */ 
+    public function setEnabled(bool $enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
 }
