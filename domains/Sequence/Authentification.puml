@@ -1,4 +1,4 @@
-@startuml
+@startuml Authentication
 'https://plantuml.com/sequence-diagram
 
 autonumber
@@ -17,13 +17,13 @@ else authentification échoué
 
 else l'utilisateur s'inscrit
     Visiteur --> Systeme: Visiteur complète le formulaire
-    Systeme --> Systeme: Verifie si cette l'utilisateur n'existe pas
+    Systeme --> Systeme: Verifie si l'utilisateur n'existe pas
 
     alt si l'utilisateur n'existe pas
         Systeme --> Systeme: Crée le compte de l'utilisateur
         Systeme --> Visiteur: Affiche message succès
        Utilisateur --> Systeme: Complète le formulaire de connexion
-    else si l'utilisateur existe pas
+    else si l'utilisateur existe
         Systeme --> Visiteur: Affiche message d'erreur
     end
 end

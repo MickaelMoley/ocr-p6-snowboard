@@ -1,26 +1,54 @@
-@startuml
+@startuml Entity
 'https://plantuml.com/class-diagram
 
 class Trick {
-    id Integer
-    name String
-    description String
+    id : Integer
+    category_id: Integer
+    name : String
+    description : String
+    slug : String
+    created_at : Datetime
+    updated_at : Datetime
+
 }
 
 class CategoryTrick {
-    id Integer
-    name String
+    id : Integer
+    name : String
 }
 
 class Media {
-    id Integer
-    name String
-    type String
-    link String
+    id : Integer
+    trick_id: Integer
+    name : String
+    type : String
+    link : String
+    
 }
 
 class User {
-
+    id : Integer
+    fullname : String
+    picture : String
+    email : String
+    roles : Array
+    password : String
+    token: String
+    enabled: boolean
 }
+
+class Comment {
+
+    id : Integer
+    author_id : Integer
+    trick_id : Integer
+    created_at : Datetime
+    message : String
+}
+
+Trick "0..*" --- "0..1" CategoryTrick
+Trick "1" -- "0..*" Comment
+Trick "1" --- "0..*" Media
+User "1" -- "0..*" Comment
 
 @enduml

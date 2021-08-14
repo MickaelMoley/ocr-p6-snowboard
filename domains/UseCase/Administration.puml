@@ -1,6 +1,6 @@
-@startuml Espace de discussion
+@startuml Administration
 'https://plantuml.com/use-case-diagram
-
+left to right direction
 actor Utilisateur
 actor Visiteur
 

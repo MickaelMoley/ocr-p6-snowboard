@@ -1,15 +1,20 @@
-@startuml Espace de discussion
+@startuml Authentification
 'https://plantuml.com/use-case-diagram
-
+left to right direction
 actor Visiteur
 
 
-usecase "Se connecter" as SignIn
-usecase "S'inscrire" as SignUp
+
+
+
+package Authentification {
+    usecase "Se connecter" as SignIn
+    usecase "S'inscrire" as SignUp
+}
 
 Visiteur --> SignIn
 Visiteur --> SignUp
 
-SignUp -> SignIn
+SignUp ..>  SignIn : << extends >>
 
 @enduml
